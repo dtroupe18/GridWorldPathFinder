@@ -32,6 +32,7 @@ def a_star_search(grid_world, start, stop):
 
         #  print("Should be x, y at start", current_cell)
         if current_cell == stop:
+            closed_list.append(current_cell)
             return closed_list
         if current_cell in closed_list:
             continue # ignore cells already evaluated
@@ -43,7 +44,7 @@ def a_star_search(grid_world, start, stop):
 
         #  print("x = ", x)
         #  print("y = ", y)
-        #  print("length of gridworld =", len(grid_world))
+        #  print("length of grid-world =", len(grid_world))
 
         if y > 0 and (grid_world[x][y - 1] == 1 or grid_world[x][y - 1] == 10): # open cells are 1
             left = (x, y - 1)
