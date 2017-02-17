@@ -8,7 +8,8 @@ def displayGridWorld(maze):
     white = (255, 255, 255) # unblocked
     green = (0, 255, 0) # start
     red = (255, 0, 0) # end
-    blue =(0, 0, 255) # path color
+    blue =(0, 0, 255) # explored cells
+    orange = (255, 153, 0)  # shortest path
 
     # set width and height of window
     size = [850, 850]
@@ -52,8 +53,10 @@ def displayGridWorld(maze):
                     color = green
                 elif maze[row][column] == 10:
                     color = red
+                elif maze[row][column] == 7:
+                    color = blue # explored cells
                 else:
-                    color = blue
+                    color = orange # shortest path
 
                 pygame.draw.rect(screen, color, [(margin + width) * column + margin,
                                                  (margin + height) * row + margin,

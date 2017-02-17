@@ -19,8 +19,8 @@ def generate_maze(size):
     x = random.randint(0, size - 1)
     y = random.randint(0, size - 1)
     maze[x][y] = 5  # unblocked - starting position
-    s = (x, y)
-    g = (None, None)
+    start = (x, y)
+    goal = (None, None)
     unvisited.remove([x, y])  # visited
 
     while len(unvisited) > 0:
@@ -45,7 +45,6 @@ def generate_maze(size):
                 if is_blocked == 2:
                     maze[x][y] = 2
                     unvisited.remove([x, y])  # mark as visited
-
                 else:
                     maze[x][y] = 1
                     unvisited.remove([x, y])  # mark as visited
@@ -57,7 +56,6 @@ def generate_maze(size):
                 if is_blocked == 2:
                     maze[x][y] = 2
                     unvisited.remove([x, y])  # mark as visited
-
                 else:
                     maze[x][y] = 1
                     unvisited.remove([x, y])  # mark as visited
@@ -69,7 +67,6 @@ def generate_maze(size):
                 if is_blocked == 2:
                     maze[x][y] = 2
                     unvisited.remove([x, y])  # mark as visited
-
                 else:
                     maze[x][y] = 1
                     unvisited.remove([x, y])  # mark as visited
@@ -81,7 +78,6 @@ def generate_maze(size):
                 if is_blocked == 2:
                     maze[x][y] = 2
                     unvisited.remove([x, y])  # mark as visited
-
                 else:
                     maze[x][y] = 1
                     unvisited.remove([x, y])  # mark as visited
@@ -96,10 +92,10 @@ def generate_maze(size):
                 random_move = random.choice(unvisited)  # move to a random unvisited cell
                 x, y = random_move
                 maze[x][y] = 10  # goal
-                g = (x, y)
+                goal = (x, y)
                 unvisited.remove([x, y])
 
-    return maze, s, g
+    return maze, start, goal
 
 
 def generate_mazes(num_of_mazes, size_of_square_maze):

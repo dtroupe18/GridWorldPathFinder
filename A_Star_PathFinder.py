@@ -28,6 +28,8 @@ def a_star_search(grid_world, start, stop):
         count += 1
         # Move to the best cell
         current_cell = heappop(open_list)
+        if count < 50:
+            print(current_cell)
         current_cell = current_cell[1]
 
         #  print("Should be x, y at start", current_cell)
