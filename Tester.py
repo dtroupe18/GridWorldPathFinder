@@ -3,6 +3,7 @@ import GenerateGridWorld
 import A_Star_PathFinder
 import A_Star_LowerG
 import ConstructPath
+import A_Star_HigherG
 
 # takes about 90 seconds to generate the mazes
 all_mazes, start, stop = GenerateGridWorld.generate_mazes(1, 101)  # stored in a dictionary from 0 - 49
@@ -43,3 +44,8 @@ print(len(path))
 #         copy_of_current_maze[x][y] = 7
 
 DisplayGridWorld.displayGridWorld(copy_of_current_maze)  # display the shortest path
+
+ccl, open_cells = A_Star_HigherG.a_star_search(copy_of_current_maze, start[0], stop[0])
+DisplayGridWorld.displayGridWorld(copy_of_current_maze)
+
+# they are comparing the same maze.... Fix this
