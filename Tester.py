@@ -48,4 +48,4 @@ DisplayGridWorld.displayGridWorld(copy_of_current_maze)  # display the shortest 
 ccl, open_cells = A_Star_HigherG.a_star_search(copy_of_current_maze, start[0], stop[0])
 DisplayGridWorld.displayGridWorld(copy_of_current_maze)
 
-# they are comparing the same maze.... Fix this
+# they are comparing the same maze.... Fix this change copy of current maze
