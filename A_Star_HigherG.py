@@ -34,6 +34,10 @@ def get_neighbors(cell, grid_world):
     return check
 
 
+def get_f_score(initial_f, g_score):
+    return ((101 ** 2) * initial_f) - (-1 * g_score)
+
+
 def a_star_search(grid_world, start, stop):
     size = len(grid_world) - 1
     open_list = []
@@ -113,4 +117,3 @@ def a_star_search(grid_world, start, stop):
             heappush(open_list, (f_score, g_scores[down], down, previous_cell))
 
     return ValueError("No Path Exists")
-

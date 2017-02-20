@@ -1,4 +1,5 @@
-from operator import itemgetter
+
+
 
 def get_index_of_tuple(l, index, value):
     for pos,t in enumerate(l):
