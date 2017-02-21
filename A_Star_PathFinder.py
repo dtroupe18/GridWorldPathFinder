@@ -1,5 +1,5 @@
 """
-A* pathfinding algorithm
+A* path-finding algorithm (no tie breaking)
 Manhattan distance is the heuristic
 Agent can only move in the four cardinal directions
 (No Diagonal moves)

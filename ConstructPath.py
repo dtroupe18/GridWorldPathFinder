@@ -1,6 +1,5 @@
 
 
-
 def get_index_of_tuple(l, index, value):
     for pos,t in enumerate(l):
         if t[index] == value:
@@ -15,7 +14,7 @@ def construct_path(complete_closed_list, goal, start):
     current_index = get_index_of_tuple(complete_closed_list, 2, current)
     parent_tuple = complete_closed_list[current_index]
     parent = parent_tuple[3]
-    path =[parent]
+    path = [parent]
 
     while parent != start:
         current_index = get_index_of_tuple(complete_closed_list, 2, parent)

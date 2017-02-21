@@ -2,7 +2,7 @@
 import pygame
 
 
-def displayGridWorld(maze):
+def displayGridWorld(maze, title, reverse=False):
     # define colors
     black = (0, 0, 0) # blocked
     white = (255, 255, 255) # unblocked
@@ -22,7 +22,7 @@ def displayGridWorld(maze):
 
     # initialize the game engine
     pygame.init()
-    pygame.display.set_caption("Grid World")
+    pygame.display.set_caption(title)
 
     # Loop until user closes the window
     done = False
@@ -50,13 +50,19 @@ def displayGridWorld(maze):
                 elif maze[row][column] == 2:
                     color = black
                 elif maze[row][column] == 5:
-                    color = green
+                    if not reverse:
+                        color = green
+                    else:
+                        color = red
                 elif maze[row][column] == 10:
-                    color = red
+                    if not reverse:
+                        color = red
+                    else:
+                        color = green
                 elif maze[row][column] == 7:
-                    color = blue # explored cells
+                    color = blue  # explored cells
                 else:
-                    color = orange # shortest path
+                    color = orange  # shortest path
 
                 pygame.draw.rect(screen, color, [(margin + width) * column + margin,
                                                  (margin + height) * row + margin,

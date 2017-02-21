@@ -6,7 +6,8 @@ Agent can only move in the four cardinal directions
 a higher g cost.
 
 """
-
+import ConstructPath
+import DisplayGridWorld
 from heapq import heappop, heappush  # binary heap for open-list
 
 
@@ -38,7 +39,13 @@ def get_f_score(initial_f, g_score):
     return ((101 ** 2) * initial_f) - (-1 * g_score)
 
 
-def a_star_search(grid_world, start, stop):
+def a_star_search(grid_world, start, stop, reverse=False):
+    if reverse:
+        title = "Reverse A Star HigherG"
+        start, stop = stop, start
+    else:
+        title = "A Star HigherG"
+
     size = len(grid_world) - 1
     open_list = []
     complete_closed_list = []
@@ -56,7 +63,11 @@ def a_star_search(grid_world, start, stop):
 
         if current_cell == stop:
             complete_closed_list.append(cell)
-            return complete_closed_list, closed_list
+            path = ConstructPath.construct_path(complete_closed_list, stop, start)
+            grid_world = ConstructPath.color_explored_cells(closed_list, grid_world, stop, start)
+            grid_world = ConstructPath.color_shortest_path(path, grid_world, start)
+            DisplayGridWorld.displayGridWorld(grid_world, title, reverse)
+            return path, closed_list
             # returns a list of all explored cells in format (f, g, (x, y) parent)
         if current_cell in closed_list:
             continue  # ignore cells already evaluated
@@ -77,7 +88,7 @@ def a_star_search(grid_world, start, stop):
             else:
                 g_scores[left] = new_g_score
 
-            f_score = manhattan_distance(left, stop) * max_distance  - g_scores[left]  # f(n) = g(n) + h(n)
+            f_score = manhattan_distance(left, stop) * max_distance - g_scores[left]  # f(n) = g(n) + h(n)
             heappush(open_list, (f_score, g_scores[left], left, previous_cell))
 
         if x > 0 and grid_world[x - 1][y] != 2 and (x - 1, y) not in closed_list:
