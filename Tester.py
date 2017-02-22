@@ -30,7 +30,3 @@ print("Number of explored cells LowerG =", len(explored_cells))
 print("Number of explored cells HigherG =", len(explored_cells2))
 print("Number of explored cells reverse LowerG =", len(reverse_explored))
 print("Number of explored cells reverse HigherG =", len(reverse_explored2))
-
-
-
-

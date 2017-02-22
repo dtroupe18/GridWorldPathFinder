@@ -5,10 +5,17 @@ Agent can only move in the four cardinal directions
 (No Diagonal moves) tie breaking favors cells with
 a higher g cost.
 
+The f score is already designed to favor cells with a larger g score
+so the second value in the cell tuples is randomly generated to
+further break ties.
+
+Algorithm can be ran forward or backward
+
 """
 import ConstructPath
 import DisplayGridWorld
 from heapq import heappop, heappush  # binary heap for open-list
+import random
 
 
 def manhattan_distance(a, b):  # heuristic function
@@ -87,9 +94,9 @@ def a_star_search(grid_world, start, stop, reverse=False):
                     g_scores[(x, y - 1)] = new_g_score
             else:
                 g_scores[left] = new_g_score
-
+            random_tie_breaker = random.randint(0, 100)
             f_score = manhattan_distance(left, stop) * max_distance - g_scores[left]  # f(n) = g(n) + h(n)
-            heappush(open_list, (f_score, g_scores[left], left, previous_cell))
+            heappush(open_list, (f_score, random_tie_breaker, left, previous_cell))
 
         if x > 0 and grid_world[x - 1][y] != 2 and (x - 1, y) not in closed_list:
             up = (x - 1, y)
@@ -99,9 +106,9 @@ def a_star_search(grid_world, start, stop, reverse=False):
                     g_scores[up] = new_g_score
             else:
                 g_scores[up] = new_g_score
-
+            random_tie_breaker = random.randint(0, 100)
             f_score = manhattan_distance(up, stop) * max_distance - g_scores[up]  # f(n) = g(n) + h(n)
-            heappush(open_list, (f_score, g_scores[up], up, previous_cell))
+            heappush(open_list, (f_score, random_tie_breaker, up, previous_cell))
 
         if y < size and grid_world[x][y + 1] != 2 and (x, y + 1) not in closed_list:
             right = (x, y + 1)
@@ -111,9 +118,9 @@ def a_star_search(grid_world, start, stop, reverse=False):
                     g_scores[right] = new_g_score
             else:
                 g_scores[right] = new_g_score
-
+            random_tie_breaker = random.randint(0, 100)
             f_score = manhattan_distance(right, stop) * max_distance - g_scores[right]  # f(n)  g(n) + h(n)
-            heappush(open_list, (f_score, g_scores[right], right, previous_cell))
+            heappush(open_list, (f_score, random_tie_breaker, right, previous_cell))
 
         if x < size and grid_world[x + 1][y] != 2 and (x + 1, y) not in closed_list:
             down = (x + 1, y)
@@ -123,8 +130,8 @@ def a_star_search(grid_world, start, stop, reverse=False):
                     g_scores[down] = new_g_score
             else:
                 g_scores[down] = new_g_score
-
+            random_tie_breaker = random.randint(0, 100)
             f_score = manhattan_distance(down, stop) * max_distance - g_scores[down]  # f(n)  g(n) + h(n)
-            heappush(open_list, (f_score, g_scores[down], down, previous_cell))
+            heappush(open_list, (f_score, random_tie_breaker, down, previous_cell))
 
     return ValueError("No Path Exists")

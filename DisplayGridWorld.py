@@ -50,15 +50,15 @@ def displayGridWorld(maze, title, reverse=False):
                 elif maze[row][column] == 2:
                     color = black
                 elif maze[row][column] == 5:
-                    if not reverse:
-                        color = green
-                    else:
+                    if reverse:
                         color = red
+                    else:
+                        color = green
                 elif maze[row][column] == 10:
-                    if not reverse:
-                        color = red
-                    else:
+                    if reverse:
                         color = green
+                    else:
+                        color = red
                 elif maze[row][column] == 7:
                     color = blue  # explored cells
                 else:
