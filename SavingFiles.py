@@ -12,22 +12,3 @@ with open("start_locations.pickle", "wb") as handle:
 
 with open("goal_locations.pickle", "wb") as handle:
     pickle._dump(goals, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
-
-# load all the data
-with open('all_mazes.pickle', 'rb') as handle:
-    all_mazes = pickle.load(handle)
-
-with open('start_locations.pickle', 'rb') as handle:
-    start = pickle.load(handle)
-
-with open('goal_locations.pickle', 'rb') as handle:
-    stop = pickle.load(handle)
-
-
-print(all_mazes == mazes)
-print(starts == start)
-print(goals == stop)
-
-print(start)
-print(stop)

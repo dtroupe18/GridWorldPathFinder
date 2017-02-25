@@ -6,7 +6,7 @@ def get_index_of_tuple(l, index, value):
             return pos
 
     # Matches behavior of list.index
-    raise ValueError("list.index(x): x not in list")
+    raise ValueError("list.index(x):", value, "not in list")
 
 
 def construct_path(complete_closed_list, goal, start):
@@ -23,6 +23,33 @@ def construct_path(complete_closed_list, goal, start):
         path.append(parent)
 
     return path
+
+
+def construct_path_from_dict(parents, goal, start):
+    how_you_know_its_fucked = len(parents)
+    count = 1
+    current = goal
+    parent = parents[current]
+    path = [parent]
+
+    while parent is not start:
+        count += 1
+
+        if parent not in parents:
+            print("This is fucked")
+        if parent == start:
+            print("This is fucked 2")
+        if count > how_you_know_its_fucked:
+            print("problem parent", parent)
+            break
+
+        temp = parent
+        parent = parents[temp]
+        path.append(parent)
+
+    return path
+
+
 
 
 def color_explored_cells(closed_list, maze, start, goal):

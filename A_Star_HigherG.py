@@ -25,27 +25,6 @@ def manhattan_distance(a, b):  # heuristic function
     return abs(x1 - x2) + abs(y1 - y2)
 
 
-def get_neighbors(cell, grid_world):
-    x = cell[0]
-    y = cell[1]
-
-    check = []
-    if y > 0 and grid_world[x][y - 1] == 0:
-        check.append((x, y - 1))
-    if x > 0 and grid_world[x - 1][y] == 0:
-        check.append((x - 1, y))
-    if y < len(grid_world) - 1 and grid_world[x][y + 1] == 0:
-        check.append((x, y + 1))
-    if x < len(grid_world) - 1 and grid_world[x + 1][y] == 0:
-        check.append((x + 1, y))
-
-    return check
-
-
-def get_f_score(initial_f, g_score):
-    return ((101 ** 2) * initial_f) - (-1 * g_score)
-
-
 def a_star_search(grid_world, start, stop, reverse=False):
     if reverse:
         title = "Reverse A Star HigherG"
@@ -58,15 +37,18 @@ def a_star_search(grid_world, start, stop, reverse=False):
     complete_closed_list = []
     closed_list = set()
     g_scores = {}
-    heappush(open_list, (0, 0, start, None))  # f, g, cell, parent
+    parents = {}
+    heappush(open_list, (0, 0, start, None))  # f, random, cell, parent
     max_distance = 101 ** 2
+    g_scores[start] = 0
 
     while open_list:
         # Move to the best cell
         cell = heappop(open_list)
-        previous_cost = cell[1]
-        previous_cell = cell[2]
+        # previous_cost = cell[1]
+        # previous_cell = cell[2]
         current_cell = cell[2]
+        previous_cost = g_scores[current_cell]
 
         if current_cell == stop:
             complete_closed_list.append(cell)
@@ -76,8 +58,10 @@ def a_star_search(grid_world, start, stop, reverse=False):
             DisplayGridWorld.displayGridWorld(grid_world, title, reverse)
             return path, closed_list
             # returns a list of all explored cells in format (f, g, (x, y) parent)
+
         if current_cell in closed_list:
             continue  # ignore cells already evaluated
+
         complete_closed_list.append(cell)
         closed_list.add(current_cell)
 
@@ -88,50 +72,62 @@ def a_star_search(grid_world, start, stop, reverse=False):
         # only cells in the open list so they have a g score?
         if y > 0 and grid_world[x][y - 1] != 2 and (x, y - 1) not in closed_list:  # open cells are 1
             left = (x, y - 1)
-            new_g_score = previous_cost + 1
-            if left in g_scores:
-                if g_scores[(x, y - 1)] > new_g_score:
-                    g_scores[(x, y - 1)] = new_g_score
+            new_g_score = previous_cost + 1  # all moves cost 1
+
+            if left in g_scores and g_scores[(x, y - 1)] < new_g_score:
+                    parent = parents[left]
             else:
                 g_scores[left] = new_g_score
+                parents[left] = current_cell
+                parent = current_cell
+
             random_tie_breaker = random.randint(0, 100)
             f_score = manhattan_distance(left, stop) * max_distance - g_scores[left]  # f(n) = g(n) + h(n)
-            heappush(open_list, (f_score, random_tie_breaker, left, previous_cell))
+            heappush(open_list, (f_score, random_tie_breaker, left, parent))
 
         if x > 0 and grid_world[x - 1][y] != 2 and (x - 1, y) not in closed_list:
             up = (x - 1, y)
             new_g_score = previous_cost + 1
-            if up in g_scores:
-                if g_scores[up] > new_g_score:
-                    g_scores[up] = new_g_score
+
+            if up in g_scores and g_scores[(x - 1, y)] < new_g_score:
+                    parent = parents[up]
             else:
                 g_scores[up] = new_g_score
+                parents[up] = current_cell
+                parent = current_cell
+
             random_tie_breaker = random.randint(0, 100)
             f_score = manhattan_distance(up, stop) * max_distance - g_scores[up]  # f(n) = g(n) + h(n)
-            heappush(open_list, (f_score, random_tie_breaker, up, previous_cell))
+            heappush(open_list, (f_score, random_tie_breaker, up, parent))
 
         if y < size and grid_world[x][y + 1] != 2 and (x, y + 1) not in closed_list:
             right = (x, y + 1)
             new_g_score = previous_cost + 1
-            if right in g_scores:
-                if g_scores[right] > new_g_score:
-                    g_scores[right] = new_g_score
+
+            if right in g_scores and g_scores[(x, y + 1)] < new_g_score:
+                    parent = parents[right]
             else:
                 g_scores[right] = new_g_score
+                parents[right] = current_cell
+                parent = current_cell
+
             random_tie_breaker = random.randint(0, 100)
             f_score = manhattan_distance(right, stop) * max_distance - g_scores[right]  # f(n)  g(n) + h(n)
-            heappush(open_list, (f_score, random_tie_breaker, right, previous_cell))
+            heappush(open_list, (f_score, random_tie_breaker, right, parent))
 
         if x < size and grid_world[x + 1][y] != 2 and (x + 1, y) not in closed_list:
             down = (x + 1, y)
             new_g_score = previous_cost + 1
-            if down in g_scores:
-                if g_scores[down] > new_g_score:
-                    g_scores[down] = new_g_score
+
+            if down in g_scores and g_scores[(x + 1, y)] < new_g_score:
+                    parent = parents[down]
             else:
                 g_scores[down] = new_g_score
+                parents[down] = current_cell
+                parent = current_cell
+
             random_tie_breaker = random.randint(0, 100)
             f_score = manhattan_distance(down, stop) * max_distance - g_scores[down]  # f(n)  g(n) + h(n)
-            heappush(open_list, (f_score, random_tie_breaker, down, previous_cell))
+            heappush(open_list, (f_score, random_tie_breaker, down, parent))
 
     return ValueError("No Path Exists")

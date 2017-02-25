@@ -1,27 +1,35 @@
-import GenerateGridWorld
-import A_Star_PathFinder
 import A_Star_LowerG
 import A_Star_HigherG
 import Adaptive_A_Star
 import copy
+import pickle
 
-# takes about 90 seconds to generate the mazes
-d = {}
-all_mazes, start, stop = GenerateGridWorld.generate_mazes(1, 101)  # stored in a dictionary from 0 - 49
-current_maze = all_mazes[0]
+# Load Data
+
+with open('all_mazes.pickle', 'rb') as handle:
+    all_mazes = pickle.load(handle)
+
+with open('start_locations.pickle', 'rb') as handle:
+    start = pickle.load(handle)
+
+with open('goal_locations.pickle', 'rb') as handle:
+    stop = pickle.load(handle)
+
+d ={}
+p = {}
+x = 37  # maze number
+current_maze = all_mazes[x]
 copy_of_current_maze = copy.deepcopy(current_maze)
 backward_maze = copy.deepcopy(current_maze)
 backward_maze2 = copy.deepcopy(current_maze)
 adaptive_maze = copy.deepcopy(current_maze)
-heuristic = A_Star_PathFinder.manhattan_distance(start[0], stop[0])
+heuristic = A_Star_LowerG.manhattan_distance(start[x], stop[x])
 
-path, explored_cells = A_Star_LowerG.a_star_search(current_maze, start[0], stop[0])
-path2, explored_cells2 = A_Star_HigherG.a_star_search(copy_of_current_maze, start[0], stop[0])
-
-reverse_path, reverse_explored = A_Star_LowerG.a_star_search(backward_maze, start[0], stop[0], True)
-reverse_path2, reverse_explored2 = A_Star_HigherG.a_star_search(backward_maze2, start[0], stop[0], True)
-
-adaptive_path, adaptive_explored = Adaptive_A_Star.a_star_search(adaptive_maze, start[0], stop[0], d, 40, True)
+path, explored_cells = A_Star_LowerG.a_star_search(current_maze, start[x], stop[x])
+path2, explored_cells2 = A_Star_HigherG.a_star_search(copy_of_current_maze, start[x], stop[x])
+reverse_path, reverse_explored = A_Star_LowerG.a_star_search(backward_maze, start[x], stop[x], True)
+reverse_path2, reverse_explored2 = A_Star_HigherG.a_star_search(backward_maze2, start[x], stop[x], True)
+adaptive_path, adaptive_explored = Adaptive_A_Star.a_star_search(adaptive_maze, start[x], stop[x], d, p, 10, False)
 
 
 print("Start = ", start[0])
@@ -38,5 +46,3 @@ print("Number of explored cells reverse LowerG =", len(reverse_explored))
 print("Number of explored cells reverse HigherG =", len(reverse_explored2))
 print("Number of explored cells Adaptive A* =", len(adaptive_explored))
 
-
-# Find Average Performance
