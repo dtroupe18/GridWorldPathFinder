@@ -17,7 +17,7 @@ def manhattan_distance(a, b):  # heuristic function
     return abs(x1 - x2) + abs(y1 - y2)
 
 
-def a_star_search(grid_world, start, stop, g_scores, parents, rounds, previously_explored, adaptive=False):
+def a_star_search(grid_world, start, stop, g_scores, parents, rounds, previously_explored, display=False, adaptive=False):
     title = "Adaptive A Star HigherG"
     size = len(grid_world) - 1
     open_list = []
@@ -48,16 +48,20 @@ def a_star_search(grid_world, start, stop, g_scores, parents, rounds, previously
                 print("Path length:", len(path))
                 print("Number of Cells Explored:", len(closed_list))
 
-                return a_star_search(grid_world, start, stop, g_scores, parents, rounds, closed_list, True)
+                return a_star_search(grid_world, start, stop, g_scores, parents, rounds, closed_list, False, True)
 
         elif current_cell == stop and rounds == 0:
             complete_closed_list.append(cell)
-            path = ConstructPath.construct_path_from_dict(parents, stop, start)
-            grid_world = ConstructPath.color_explored_cells(closed_list, grid_world, stop, start)
-            grid_world = ConstructPath.color_shortest_path(path, grid_world, start)
-            DisplayGridWorld.displayGridWorld(grid_world, title, False)
+            if display:
+                path = ConstructPath.construct_path_from_dict(parents, stop, start)
+                grid_world = ConstructPath.color_explored_cells(closed_list, grid_world, stop, start)
+                grid_world = ConstructPath.color_shortest_path(path, grid_world, start)
+                DisplayGridWorld.displayGridWorld(grid_world, title, False)
+                return path, closed_list
 
-            return path, closed_list
+            else:
+                path = ConstructPath.construct_path_from_dict(parents, stop, start)
+                return path, closed_list
 
         if current_cell in closed_list:
             continue  # ignore cells already evaluated
@@ -74,8 +78,6 @@ def a_star_search(grid_world, start, stop, g_scores, parents, rounds, previously
 
         if y > 0 and grid_world[x][y - 1] != 2 and (x, y - 1) not in closed_list:  # open cells are 1
             left = (x, y - 1)
-            # if adaptive and left not in g_scores:
-            #     continue
             new_g_score = previous_cost + 1  # all moves cost 1
 
             if left in g_scores and g_scores[(x, y - 1)] < new_g_score:
@@ -96,8 +98,6 @@ def a_star_search(grid_world, start, stop, g_scores, parents, rounds, previously
 
         if x > 0 and grid_world[x - 1][y] != 2 and (x - 1, y) not in closed_list:
             up = (x - 1, y)
-            # if adaptive and up not in g_scores:
-            #     continue
             new_g_score = previous_cost + 1
 
             if up in g_scores and g_scores[(x - 1, y)] < new_g_score:
@@ -118,8 +118,6 @@ def a_star_search(grid_world, start, stop, g_scores, parents, rounds, previously
 
         if y < size and grid_world[x][y + 1] != 2 and (x, y + 1) not in closed_list:
             right = (x, y + 1)
-            # if adaptive and right not in g_scores:
-            #     continue
             new_g_score = previous_cost + 1
 
             if right in g_scores and g_scores[(x, y + 1)] < new_g_score:
@@ -140,9 +138,6 @@ def a_star_search(grid_world, start, stop, g_scores, parents, rounds, previously
 
         if x < size and grid_world[x + 1][y] != 2 and (x + 1, y) not in closed_list:
             down = (x + 1, y)
-
-            # if adaptive and down not in g_scores:
-            #     continue
             new_g_score = previous_cost + 1
 
             if down in g_scores and g_scores[(x + 1, y)] < new_g_score:

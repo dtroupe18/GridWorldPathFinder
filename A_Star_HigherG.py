@@ -25,7 +25,7 @@ def manhattan_distance(a, b):  # heuristic function
     return abs(x1 - x2) + abs(y1 - y2)
 
 
-def a_star_search(grid_world, start, stop, reverse=False):
+def a_star_search(grid_world, start, stop, display=False, reverse=False):
     if reverse:
         title = "Reverse A Star HigherG"
         start, stop = stop, start
@@ -52,11 +52,16 @@ def a_star_search(grid_world, start, stop, reverse=False):
 
         if current_cell == stop:
             complete_closed_list.append(cell)
-            path = ConstructPath.construct_path(complete_closed_list, stop, start)
-            grid_world = ConstructPath.color_explored_cells(closed_list, grid_world, stop, start)
-            grid_world = ConstructPath.color_shortest_path(path, grid_world, start)
-            DisplayGridWorld.displayGridWorld(grid_world, title, reverse)
-            return path, closed_list
+            if display:
+                path = ConstructPath.construct_path(complete_closed_list, stop, start)
+                grid_world = ConstructPath.color_explored_cells(closed_list, grid_world, stop, start)
+                grid_world = ConstructPath.color_shortest_path(path, grid_world, start)
+                DisplayGridWorld.displayGridWorld(grid_world, title, reverse)
+                return path, closed_list
+
+            else:
+                path = ConstructPath.construct_path(complete_closed_list, stop, start)
+                return path, closed_list
             # returns a list of all explored cells in format (f, g, (x, y) parent)
 
         if current_cell in closed_list:
