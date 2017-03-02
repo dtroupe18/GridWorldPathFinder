@@ -46,7 +46,7 @@ def a_star_search(grid_world, start, stop, display=False, reverse=False):
 
         if current_cell == stop:
             complete_closed_list.append(cell)
-            closed_list.add(current_cell)
+            # closed_list.add(current_cell)
             if display:
                 path = ConstructPath.construct_path_from_dict(parents, stop, start)
                 grid_world = ConstructPath.color_explored_cells(closed_list, grid_world, stop, start)

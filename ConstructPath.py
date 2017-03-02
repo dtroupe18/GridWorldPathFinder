@@ -31,7 +31,6 @@ def construct_path_from_dict(parents, goal, start):
     path = [parent]
 
     while parent is not start:
-        count += 1
         temp = parent
         parent = parents[temp]
         path.append(parent)
