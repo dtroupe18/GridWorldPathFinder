@@ -43,7 +43,7 @@ reverse_path2, reverse_explored2 = A_Star_HigherG.a_star_search(backward_maze2, 
 reverse_higherG_end = time.time()
 
 adap_start = time.time()
-adaptive_path, adaptive_explored = Adaptive_A_Star.a_star_search(adaptive_maze, start[x], stop[x], d, p, 3, False)
+adaptive_path, adaptive_explored = Adaptive_A_Star.a_star_search(adaptive_maze, start[x], stop[x], d, p, 3, True)
 adap_end = time.time()
 
 print("Start = ", start[0])
@@ -66,3 +66,4 @@ print("Reverse Lower G A* time       ", reverse_reverse_lowerg_end - reverse_low
 print("Reverse Higher G A* time      ", reverse_higherG_end - reverse_higherG)
 
 
+# If you want to time the functions you need to set display to false

@@ -48,7 +48,7 @@ def a_star_search(grid_world, start, stop, g_scores, parents, rounds, previously
                 print("Path length:", len(path))
                 print("Number of Cells Explored:", len(closed_list))
 
-                return a_star_search(grid_world, start, stop, g_scores, parents, rounds, closed_list, False, True)
+                return a_star_search(grid_world, start, stop, g_scores, parents, rounds, closed_list, True, True)
 
         elif current_cell == stop and rounds == 0:
             complete_closed_list.append(cell)
